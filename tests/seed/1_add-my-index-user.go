@@ -1,15 +1,13 @@
 package seed
 
-import "github.com/iamviniciuss/golang-migrations/src/repository"
-
 type addMyIndexUser struct {
 	typing     string
 	name       string
 	version    uint64
-	repository repository.OnlineReviewRepository
+	repository OnlineReviewRepository
 }
 
-func NewAddMyIndexUser(repository repository.OnlineReviewRepository) *addMyIndexUser {
+func NewAddMyIndexUser(repository OnlineReviewRepository) *addMyIndexUser {
 	return &addMyIndexUser{
 		version:    1,
 		name:       "addMyIndexUser",
@@ -31,7 +29,7 @@ func (ami *addMyIndexUser) GetVersion() uint64 {
 }
 
 func (ami *addMyIndexUser) Up() error {
-	ami.repository.Insert(&repository.OnlineReview{
+	ami.repository.Insert(&OnlineReview{
 		Name: "Golang",
 	})
 	return nil

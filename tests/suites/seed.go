@@ -28,7 +28,7 @@ func main() {
 
 	// migrationRepo := repository.NewMigrationRepositoryMySQL(mysqlconn)
 	migrationRepo := repository.NewMigrationRepositoryMongo(database)
-	onlineReviewRepo := repository.NewOnlineRepositoryMongo(database)
+	onlineReviewRepo := seeds.NewOnlineRepositoryMongo(database)
 
 	migrationManager := pkg.NewMigrate(migrationRepo)
 	migrationManager.Register(seeds.NewAddMyIndexUser(onlineReviewRepo))
