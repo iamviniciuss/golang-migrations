@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test-generate-coverfile": "go test -coverprofile=coverage.out ./...",
+    "test-generate-coverfile": "go test -coverprofile=coverage.out ./src/...",
     "test-exec-cover-html": "go tool cover -func=coverage.out",
     "test-export-html": "go tool cover -html=coverage.out",
     "test": "npm run test-generate-coverfile && npm run test-exec-cover-html && npm run test-export-html",

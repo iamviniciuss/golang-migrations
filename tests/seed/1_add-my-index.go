@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 type addMyIndex struct {
@@ -54,7 +54,7 @@ func (ami *addMyIndex) Up() error {
 }
 
 func (ami *addMyIndex) Down() error {
-	_, err := ami.db.Collection("my-coll").Indexes().DropOne(context.TODO(), "my-index")
+	err := ami.db.Collection("my-coll").Indexes().DropOne(context.TODO(), "my-index")
 	if err != nil {
 		fmt.Println(err.Error())
 		return err

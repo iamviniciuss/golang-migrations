@@ -13,11 +13,12 @@ import (
 const migrationsPath = "file://path/to/your/migrations"
 
 type MigrationRepositoryMySQL struct {
-	db *sql.DB
+	db                 *sql.DB
+	migrationTableName string
 }
 
-func NewMigrationRepositoryMySQL(db *sql.DB) *MigrationRepositoryMySQL {
-	return &MigrationRepositoryMySQL{db}
+func NewMigrationRepositoryMySQL(db *sql.DB, migrationTableName string) *MigrationRepositoryMySQL {
+	return &MigrationRepositoryMySQL{db, migrationTableName}
 }
 
 func (erm *MigrationRepositoryMySQL) Insert(rec *entity.VersionRecord) (*entity.VersionRecord, error) {
@@ -47,7 +48,7 @@ func (erm *MigrationRepositoryMySQL) CreateCollectionIfNotExists(name string) er
 			nome VARCHAR(255),
 			idade INT
 		);
-	`, tableName)
+	`, erm.migrationTableName)
 
 	_, err := erm.db.Exec(createTableQuery)
 	if err != nil {
@@ -59,16 +60,7 @@ func (erm *MigrationRepositoryMySQL) CreateCollectionIfNotExists(name string) er
 	return nil
 }
 
-const (
-	username  = "root"
-	password  = ""
-	hostname  = "localhost"
-	port      = 3306
-	dbName    = "wallet"
-	tableName = "migrations"
-)
-
-func NewConnection() (*sql.DB, error) {
+func NewConnection(hostname, username, password, dbName, tableName string, port int) (*sql.DB, error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s", username, password, hostname, port, dbName)
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {

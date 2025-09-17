@@ -5,9 +5,9 @@ import (
 
 	entity "github.com/iamviniciuss/golang-migrations/src/dto"
 	"github.com/pkg/errors"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/v2/bson"
+	"go.mongodb.org/mongo-driver/v2/mongo"
+	"go.mongodb.org/mongo-driver/v2/mongo/options"
 )
 
 const defaultMigrationsCollection = "migrations"
@@ -78,7 +78,7 @@ func (erm *MigrationRepositoryMongo) CreateCollectionIfNotExists(name string) er
 	}
 
 	command := bson.D{bson.E{Key: "create", Value: name}}
-	err = erm.db.RunCommand(nil, command).Err()
+	err = erm.db.RunCommand(context.TODO(), command).Err()
 	if err != nil {
 		return err
 	}
